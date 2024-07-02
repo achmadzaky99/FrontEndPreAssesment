@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sistem Informasi Layanan</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/all.min.css">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.15/dist/sweetalert2.min.css">
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.15/dist/sweetalert2.all.min.js"></script>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+        }
+        /* Sidebar Styles */
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #343a40;
+            color: #ffffff;
+            transition: all 0.3s;
+        }
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #495057;
+        }
+        #sidebar ul.components {
+            padding: 20px 0;
+            border-bottom: 1px solid #6c757d;
+        }
+        #sidebar ul li a {
+            padding: 10px;
+            font-size: 1.1em;
+            display: block;
+            color: #ffffff;
+            transition: all 0.3s;
+        }
+        #sidebar ul li a:hover {
+            background: #007bff;
+            color: #ffffff;
+        }
+        #sidebar ul li a.active {
+            background: #007bff;
+            color: #ffffff;
+        }
+
+        /* Content Styles */
+        #content {
+            width: 100%;
+            padding: 20px;
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+        .form-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .btn-custom {
+            background: #007bff;
+            color: #ffffff;
+        }
+        .btn-custom:hover {
+            background: #0056b3;
+            color: #ffffff;
+        }
+        .table-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .table thead {
+            background: #007bff;
+            color: #ffffff;
+        }
+        .table tbody tr:hover {
+            background: #f1f1f1;
+        }
+        .search-input {
+            margin-bottom: 20px;
+        }
+        #notification {
+    display: none;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+    </style>
+</head>
+<body>
+    
+    
+    <div class="d-flex">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Sistem Informasi Layanan</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#" id="linkForm" class="active">Form</a>
+                </li>
+                <li>
+                    <a href="#" id="linkTable">List Layanan</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="content">
+            <!-- Form content -->
+            <div id="formContent" class="form-container">
+                <form class="p-2">
+                    <h1 class="text-center">Tambah Layanan</h1>
+                    <label for="inputName">Nama Layanan:</label>
+                    <input id="inputName" type="text" class="form-control my-1">
+                    <input id="inputId" type="hidden" class="form-control my-1">
+                    <div id="alertName" class="d-none alert alert-danger py-2 mb-2">Nama Tidak Valid<br>Contoh: Kesehatan 2</div>
+                    <label for="inputDescription">Deskripsi Layanan:</label>
+                    <textarea id="inputDescription" rows="3" class="form-control my-1"></textarea>
+                    <div id="alertDescription" class="d-none alert alert-danger py-2 mb-2">Deskripsi Tidak Valid<br>Contoh: Layanan kesehatan yang menyediakan...</div>
+                    <label for="inputPrice">Harga Layanan:</label>
+                    <input id="inputPrice" type="number" class="form-control my-1">
+                    <div id="alertPrice" class="d-none alert alert-danger py-2 mb-2">Harga tidak valid<br>Contoh: 1000</div>
+                    <div class="text-center w-100">
+                        <button id="btnAdd" class="btn btn-custom mb-1 mb-sm-0" type="button">Add Product</button>
+                        <button id="btnClear" class="btn btn-outline-secondary mb-1 mb-sm-0" type="button">Clear Form</button>
+                    </div>
+                </form>
+                
+            </div>
+            <!-- Tambah Transaksi Form -->
+            <div id="formContentTransaksi" class="form-container">
+                <form id="formTambahTransaksi" class="p-2">
+                    <h1 class="text-center">Tambah Transaksi</h1>
+                    <div class="mb-3">
+                        <label for="inputIdLayanan" class="form-label">Id Layanan:</label>
+                        <input type="number" class="form-control" id="inputIdLayanan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputQtyTransaksi" class="form-label">Qty Transaksi:</label>
+                        <input type="number" class="form-control" id="inputQtyTransaksi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputHargaTotal" class="form-label">Harga Total Transaksi:</label>
+                        <input type="number" class="form-control" id="inputHargaTotal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputTanggalTransaksi" class="form-label">Tanggal Transaksi:</label>
+                        <input type="datetime-local" class="form-control" id="inputTanggalTransaksi" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+
+            
+            <div id="tableContentTransaksi" class="table-container" style="display: none;">
+                <input id="inputSearch" class="form-control search-input" placeholder="Search By Name..." type="search">
+                <table class="table table-striped text-center p-2">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Layanan</th>
+                            <th>Deskripsi Layanan</th>
+                            <th>Harga Layanan</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Table content -->
+            <div id="tableContent" class="table-container" style="display: none;">
+                <input id="inputSearch" class="form-control search-input" placeholder="Search By Name..." type="search">
+                <table class="table table-striped text-center p-2">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Layanan</th>
+                            <th>Deskripsi Layanan</th>
+                            <th>Harga Layanan</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const linkForm = document.getElementById('linkForm');
+            const linkTable = document.getElementById('linkTable');
+            const formContent = document.getElementById('formContent');
+            const tableContent = document.getElementById('tableContent');
+
+            linkForm.addEventListener('click', function (e) {
+                e.preventDefault();
+                formContent.style.display = 'block';
+                tableContent.style.display = 'none';
+                linkForm.classList.add('active');
+                linkTable.classList.remove('active');
+            });
+
+            linkTable.addEventListener('click', function (e) {
+                e.preventDefault();
+                formContent.style.display = 'none';
+                tableContent.style.display = 'block';
+                linkForm.classList.remove('active');
+                linkTable.classList.add('active');
+            });
+        });
+    </script>
+    <script src="JS/index.js"></script>
+</body>
+</html>

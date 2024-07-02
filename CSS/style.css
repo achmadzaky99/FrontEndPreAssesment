@@ -1,0 +1,30 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+}
+i:hover {
+    cursor: pointer;
+}
+/* Style the sidebar */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+}
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #f8f9fa;
+}
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #dcdcdc;
+}
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: #333;
+}
+#sidebar ul li a:hover {
+    background: #6c757d;
+    color: #ffffff;
+}
+
